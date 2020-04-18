@@ -324,6 +324,26 @@ struct Sieve {
 
 
 int main() {
-  
+  string s;
+  cin >> s;
+  int k;
+  cin >> k;
+  vector<string> v(k);
+  rep(i,k) v[i] = "{";
+  int n = s.size();
+  rep(i,n){
+    string temp = "";
+    rep(j,min(k,n-i)){
+      temp += (char)s[i+j];
+      int flag = 1;
+      rep(i,k) if(v[i] == temp) flag = 0;
+      if(flag) v.push_back(temp);
+    }
+    sort(all(v));
+    v.resize(k);
+    //rep(i,k)cout << v[i] << " " ;
+    //cout <<"" << endl;
+  }
+  cout << v[k-1] << endl;
   return 0;
 }

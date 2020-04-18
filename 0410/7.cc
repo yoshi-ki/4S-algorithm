@@ -132,7 +132,7 @@ mint nCr(int n, int r){
 }
 // --- MOD用end ---*/
 
-/*
+
 // --- Union Find tree start ---
 struct UnionFind {
     // union tree
@@ -171,7 +171,7 @@ struct UnionFind {
     }
 };
 // --- Union Find tree end ---
-*/
+
 
 /*
 // --- segment tree start ---
@@ -324,6 +324,20 @@ struct Sieve {
 
 
 int main() {
-  
+  int n,m;
+  cin >> n >> m;
+  UnionFind tree(n);
+  vector<int> p(n);
+  rep(i,n)cin >> p[i];
+  rep(i,m){
+    int x,y;
+    cin >> x >> y;
+    tree.unite(x-1,y-1);
+  }
+  int ans = 0;
+  rep(i,n){
+    if(tree.same(i,p[i]-1)) ans++;
+  }
+  cout << ans << endl;
   return 0;
 }

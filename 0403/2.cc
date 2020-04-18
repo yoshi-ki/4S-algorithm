@@ -251,9 +251,8 @@ struct SegTree {
 */
 
 
-/*
-// --- 素数系のライブラリ ---
 
+// --- 素数系のライブラリ ---
 //素因数分解をpairで出す関数
 vector<pair<ll,int>> factorize(ll n) {
   vector<pair<ll,int>> res;
@@ -269,7 +268,7 @@ vector<pair<ll,int>> factorize(ll n) {
   return res;
 };
 
-//エラトステネスの篩(連続する整数について素数判定や素因数分解をしたい時)
+//エラストテネスの篩(連続する整数について素数判定や素因数分解をしたい時)
 struct Sieve {
   int n;
   vector<int> f, primes;
@@ -313,7 +312,7 @@ struct Sieve {
   }
 };
 // --- 素数系のライブラリend ---
-*/
+
 
 
 //when you want to cout double ...
@@ -324,6 +323,20 @@ struct Sieve {
 
 
 int main() {
-  
+  ll a,b;
+  cin >> a >> b;
+  ll g = gcd(a,b);
+  // vector <int> p =  sieve.factorList(G);
+  // int before = 0;
+  // int ans = 0;
+  // rep(i,p.size()){
+  //   if(before != p[i]) ans++;
+  //   before = p[i];
+  // }
+  ll ans = 0;
+  vector<pair <ll,int>> f = factorize(g);
+  cout << f.size() + 1 << endl;
+
+
   return 0;
 }

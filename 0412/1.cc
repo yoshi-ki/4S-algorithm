@@ -39,7 +39,7 @@ ll gcd(ll x, ll y) { return y ? gcd(y,x%y) : x;}
 
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -130,7 +130,7 @@ mint nCr(int n, int r){
   }
   return ans;
 }
-// --- MOD用end ---*/
+// --- MOD用end ---
 
 /*
 // --- Union Find tree start ---
@@ -321,9 +321,38 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+mint dp[205][105];
 
 int main() {
-  
+  int n;
+  cin >> n;
+  int a,b;
+  cin >> a >> b;
+  int m;
+  cin >> m;
+  vector <pair<int,int>> road;
+  rep(i,m){
+    int xi,yi;
+    cin >> xi >> yi;
+    road.push_back(pair<int,int>(xi-1,yi-1));
+    road.push_back(pair<int,int>(yi-1,xi-1));
+  }
+  //road は0-indexed
+
+  dp[0][a-1] = 1;
+
+  //ここからdpを回す
+  int i = 1;
+  while(1){
+    rep(j,road.size()){
+      int start = road[j].first;
+      int end = road[j].second;
+      dp[i][end] += dp[i-1][start];
+    }
+    if(dp[i][b-1].val > 0) {cout << dp[i][b-1] << endl; break;}
+    i++;
+  }
+
+
   return 0;
 }

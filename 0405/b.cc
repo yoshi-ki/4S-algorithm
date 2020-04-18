@@ -324,6 +324,15 @@ struct Sieve {
 
 
 int main() {
-  
+  int n,m;
+  cin >> n >> m;
+  vector<int> a(n);
+  rep(i,n) cin >> a[i];
+  sort(all(a));
+  reverse(all(a));
+  int sum = 0;
+  rep(i,n) sum += a[i];
+  if(a[m-1] * 4 * m < sum ) cout << "No" << endl; 
+  else cout << "Yes" << endl;
   return 0;
 }

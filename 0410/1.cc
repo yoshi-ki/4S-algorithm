@@ -324,6 +324,20 @@ struct Sieve {
 
 
 int main() {
-  
+  ll n;
+  cin >> n;
+  vector<ll> a(n);
+  ll count = 0;//負の数の数
+  ll sum = 0;//合計を保存しておく場所
+  ll absmin = LLINF;
+  rep(i,n){
+    ll a;
+    cin >> a;
+    if(a<0) count++;
+    sum += abs(a);
+    absmin = min(absmin,llabs(a));
+  }
+  if(count % 2 == 1) sum -= (2*absmin);
+  cout << sum << endl;
   return 0;
 }

@@ -324,6 +324,53 @@ struct Sieve {
 
 
 int main() {
-  
+  int h,w,d;
+  cin >> h >> w >> d ;
+  map<int,pair<int,int>>mp;
+  rep(i,h){
+    rep(j,w){
+      int aij;
+      cin >> aij;
+      mp[aij].first = i;
+      mp[aij].second = j;
+    }
+  }
+
+  vector<vector<int>> v(d,vector<int>(1,0));
+  for(int i = 1; i <= h*w; i++){
+    if(i<=d) continue;
+    int j = i % d;
+    if(j==0)j=d;
+    int distance = abs(mp[i].first - mp[i-d].first) + abs(mp[i].second - mp[i-d].second);
+    v[j-1].push_back(distance+v[j-1][v[j-1].size()-1]);
+  }
+
+  //cout << v[0][1] << endl;
+
+  // rep(i,v.size()){
+  //   rep(j,v[i].size()){
+  //     cout << v[i][j] << " ";
+  //   }
+  //   cout << "" << endl;
+  // }
+  // int v2[500][500];
+  // rep(i,v.size()){
+  //   rep(j,v[i].size()){
+  //     v2[i][j] = v[i][j];
+  //   }
+  // }
+
+  int q;
+  cin >> q;
+  rep(i,q){
+    int l,r;
+    cin >> l >> r;
+    int mod = l % d;
+    if(mod == 0) mod = d;
+    int left = (l-mod)/d;
+    int right = (r-mod)/d;
+    int ans = v[mod-1][right]- v[mod-1][left];
+    cout << ans << endl;
+  }
   return 0;
 }

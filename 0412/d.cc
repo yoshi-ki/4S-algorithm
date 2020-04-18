@@ -324,6 +324,56 @@ struct Sieve {
 
 
 int main() {
-  
+  int n;
+  string s;
+  cin >> n >> s;
+  if(n<=2) {cout << 0 << endl ; return 0;}
+
+  //まず累積わの計算
+  vector <int> red(n);
+  vector <int> blue(n);
+  vector<int> green(n);
+  if(s[0] == 'R') {red[0] = 1; blue[0] = 0; green[0] = 0;}
+  else if(s[0] == 'G'){red[0] = 0; blue[0] = 0; green[0] = 1;}
+  else{red[0] = 0; blue[0] = 1; green[0] = 0;}
+  for(int i = 1; i<n; i++){
+    if(s[i] == 'R'){
+      red[i] = red[i-1] + 1; blue[i] = blue[i-1]; green[i] = green[i-1];
+    } 
+    else if(s[i] == 'G'){
+      red[i] = red[i-1]; blue[i] = blue[i-1]; green[i] = green[i-1] + 1;
+    }
+    else{
+      red[i] = red[i-1]; blue[i] = blue[i-1] + 1; green[i] = green[i-1];
+    }
+  }
+
+  ll sum = 0;
+
+  for(int j = 1; j <= n-2; j++){
+    //j番目を見ていく
+    char jc = s[j];
+    if(jc == 'R'){
+      sum += green[j-1] * (blue[n-1] - blue[j]);
+      sum += blue[j-1] * (green[n-1] - green[j]);
+    }
+    else if(jc == 'G'){
+      sum += red[j-1] * (blue[n-1] - blue[j]);
+      sum += blue[j-1] * (red[n-1] - red[j]);
+    }
+    else {
+      sum += green[j-1] * (red[n-1] - red[j]);
+      sum += red[j-1] * (green[n-1] - green[j]);
+    }
+
+    //この次はjと距離が等しいものでペアを作れればひく
+    int count = min(j,n-1-j);
+    for(int i = 1; i <= count; i++){
+      if(s[j-i] != s[j] && s[j] != s[j+i] && s[j+i] != s[j-i]){
+        sum--;
+      }
+    }
+  }
+  cout << sum << endl;
   return 0;
 }

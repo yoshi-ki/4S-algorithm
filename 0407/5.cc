@@ -321,9 +321,67 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+int n;
 
+vector<int> v;
+
+int c [3] = {3,5,7};
+
+// int cou[10] = {0,0,0,1,1,2,2,3,3,3};
+
+// int help[10] = {1,10,100,1000,10000,100000,1000000,10000000,100000000,1000000000};
+
+// int dfs(int temp,int now){
+//   //tempの最上位の桁を読み取る
+//   int digitnum = log10(temp)+1;
+//   int digit = temp / help[digitnum];
+//   if(digitnum == 1) return cou[digit];
+
+
+// };
 
 int main() {
-  
+  cin >> n;
+  deque <int> q;
+  q.push_back(3);
+  q.push_back(5);
+  q.push_back(7);
+  while(q.front() <= n){
+    int tempnum = q.front();
+    q.pop_front();
+    v.push_back(tempnum);
+    rep(i,3){
+      int digit = c[i];
+      q.push_back(tempnum * 10 + digit);
+    }
+  }
+
+  auto check = [] (int num){
+    //ool res = false;
+    bool r3 = false;
+    bool r5 = false;
+    bool r7 = false;
+    int count = log10(num) + 1;
+    rep(i,count){
+      if(num % 10 == 3) r3 = true;
+      if(num % 10 == 5) r5 = true;
+      if(num % 10 == 7) r7 = true;
+      num /= 10;
+    }
+    return (r3 && r5 && r7);
+  };
+
+  int ans = 0;
+
+  rep(i,v.size()){
+    if(v[i] > n) break;
+    if(check(v[i])){
+      //cout << v[i] << endl;
+      ans++;
+    }
+  }
+
+  cout << ans << endl;
+
   return 0;
 }

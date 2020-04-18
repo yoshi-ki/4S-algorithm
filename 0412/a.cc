@@ -324,6 +324,13 @@ struct Sieve {
 
 
 int main() {
-  
+  string s;
+  cin >> s;
+  int flag = 0;
+  rep(i,3){
+    if(s[i] == '7') flag = 1;
+  }
+  if(flag) cout << "Yes" << endl;
+  else cout << "No" << endl;
   return 0;
 }

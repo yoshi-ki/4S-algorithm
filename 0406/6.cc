@@ -321,9 +321,68 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+int v[2005][2005];
+int h[2005][2005];
 
 int main() {
-  
+  int H, W;
+  cin >> H >> W;
+  vector<string> s(H);
+  rep(i,H){
+    cin >> s[i];
+  }
+
+
+  rep(i,H){
+    int start = 0;
+    rep(j,W){
+      if(s[i][j] == '#'){
+        for(int k = start; k < j; k++){
+          h[i][k] = j - start ;
+        }
+        h[i][j] = 0;
+        start = j + 1;
+      }
+    }
+    for(int k = start; k < W; k++){
+      h[i][k] = W-start;
+    }
+  }
+
+
+
+  rep(j,W){
+    int start = 0;
+    rep(i,H){
+      if(s[i][j] == '#'){
+        for(int k = start; k < i; k++){
+          v[k][j] = i - start ;
+        }
+        v[i][j] = 0;
+        start = i + 1;
+      }
+    }
+    for(int k = start; k < H; k++){
+      v[k][j] = H - start;
+    }
+  }
+
+/*
+  rep(i,H){
+    rep(j,W){
+      cout << v[i][j] << " ";
+    }
+    cout << "" << endl;
+  }
+*/
+  int ans = 0;
+  rep(i,H){
+    rep(j,W){
+      ans = max(ans,h[i][j] + v[i][j]);
+    }
+  }
+
+  cout << ans-1 << endl;
+
   return 0;
 }

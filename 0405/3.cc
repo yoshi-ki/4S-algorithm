@@ -321,9 +321,42 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+int dp[55][100005][55];
 
 int main() {
-  
+  int W;
+  cin >> W;
+  int n,K;
+  cin >> n >> K;
+  vector<int> a(n);
+  vector<int> b(n);
+  rep(i,n){
+    cin >> a[i];
+    cin >> b[i];
+  }
+
+  dp[0][0][0] = 0;
+
+  for(int i = 1; i <= n; i++){
+    for(int j = 1; j <= W; j++){
+      for(int k = 1; k <= K; k++){
+        if(j >= a[i-1]){
+          dp[i][j][k] = max(dp[i-1][j-a[i-1]][k-1]+b[i-1],dp[i-1][j][k]);
+        }
+        dp[i][j][k] = max(dp[i][j][k],dp[i-1][j][k]);
+      }
+    }
+  }
+
+  int ans = 0;
+
+  // for(int i = 1; i <= W; i++){
+  //   for(int j = 1; j <= K; j++){
+  //     ans = max(ans, dp[n][i][j]);
+  //   }
+  // }
+
+  cout << dp[n][W][K] << endl;
+
   return 0;
 }

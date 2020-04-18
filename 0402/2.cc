@@ -31,14 +31,6 @@ using namespace std;
 using ll = long long;
 
 
-
-//普通のライブラリ
-
-//最大公約数
-ll gcd(ll x, ll y) { return y ? gcd(y,x%y) : x;}
-
-
-
 /*
 // --- MOD用start ---
 template <int MOD>
@@ -253,23 +245,7 @@ struct SegTree {
 
 /*
 // --- 素数系のライブラリ ---
-
-//素因数分解をpairで出す関数
-vector<pair<ll,int>> factorize(ll n) {
-  vector<pair<ll,int>> res;
-  for (ll i = 2; i*i <= n; ++i) {
-    if (n%i) continue;
-    res.emplace_back(i,0);
-    while (n%i == 0) {
-      n /= i;
-      res.back().second++;
-    }
-  }
-  if (n != 1) res.emplace_back(n,1);
-  return res;
-};
-
-//エラトステネスの篩(連続する整数について素数判定や素因数分解をしたい時)
+//エラストテネスの篩
 struct Sieve {
   int n;
   vector<int> f, primes;
@@ -315,7 +291,6 @@ struct Sieve {
 // --- 素数系のライブラリend ---
 */
 
-
 //when you want to cout double ...
 //cout << fixed << setprecision(14) << (double)(i*i*i) << endl;
 
@@ -324,6 +299,18 @@ struct Sieve {
 
 
 int main() {
-  
+  double a,b;
+  cin >> a >> b;
+  double x;
+  cin >> x;
+  if(a*a*b > 2*x){
+    //これは三角形
+    cout << fixed << setprecision(14)<< (atan2(b,2*x/(a*b)))*180/3.14159265358979 << endl;
+  }
+  else {
+    //これは台形
+    x = a*a*b - x;
+    cout << fixed << setprecision(14)<< 90 - atan2(a,2*x/(a*a))*180/3.14159265358979 << endl;
+  }
   return 0;
 }

@@ -324,6 +324,33 @@ struct Sieve {
 
 
 int main() {
+  string s,t;
+  cin >> s>> t;
+  int n = s.size(); int m = t.size();
+  vector<vector<int>> is(26);
+  //これで二つのsを組み合わせたものを作成する。
+  //場所の情報がvectorの各々に書かれている
+  rep(i,n) is[s[i]-'a'].push_back(i);
+  rep(i,n) is[s[i]-'a'].push_back(i+n);
   
+  int flag = 0;
+  rep(i,m){
+    if(is[t[i]-'a'].size() == 0) flag = 1;
+  }
+  if(flag) {cout << -1 << endl; return 0;}
+
+  ll ans = 0;
+  ll temp = 0;
+  rep(i,m){
+    //tのi文字目に関して
+    int digit = t[i] - 'a';
+    temp = *lower_bound(all(is[digit]),temp) + 1;
+    //cout << temp << endl;
+    if(temp >= n){
+      temp = temp - n;
+      ans += n;
+    }
+  }
+  cout << ans + temp << endl;
   return 0;
 }

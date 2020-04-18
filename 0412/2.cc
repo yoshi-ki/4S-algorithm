@@ -324,6 +324,38 @@ struct Sieve {
 
 
 int main() {
-  
+  int n,m,q ;
+  cin >> n >> m >> q ;
+  vector<pair<int,int>> d;
+  rep(i,m){
+    int l,r;
+    cin >> l >> r;
+    d.push_back(pair<int,int>(l,r));
+  }
+
+  int C[505][505];
+  rep(i,505)rep(j,505)C[i][j] = 0;
+  rep(i,m){
+    C[d[i].first][d[i].second] += 1;
+  }
+  for (int i=1; i<= n; i++){
+    for(int j = 1; j <= n; j++){
+      C[i][j] += C[i][j-1];
+    }
+  }
+  for (int i=1; i<= n; i++){
+    for(int j = 1; j <= n; j++){
+      C[i][j] += C[i-1][j];
+    }
+  }
+
+  rep(i,q){
+    int l,r;
+    cin >> l >> r;
+    cout << C[r][r] + C[l-1][l-1] - C[l-1][r] - C[r][l-1] << endl;
+  }
+
+
+
   return 0;
 }

@@ -251,7 +251,7 @@ struct SegTree {
 */
 
 
-/*
+
 // --- 素数系のライブラリ ---
 
 //素因数分解をpairで出す関数
@@ -313,7 +313,7 @@ struct Sieve {
   }
 };
 // --- 素数系のライブラリend ---
-*/
+
 
 
 //when you want to cout double ...
@@ -321,9 +321,26 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+//約数の列挙を行う
+vector<int> helper(ll n){
+  vector<int> v;
+  for(int i = 1; i*i <= n; i++){
+    if(n % i == 0) {v.push_back(i);if(i * i != n) v.push_back(n / i);}
+  }
+  return v;
+}
 
 
 int main() {
-  
+  ll n, m;
+  cin >> n >> m;
+  auto v = helper(m);
+  sort(all(v));
+  rep(i,v.size()){
+    if(v[i] >= n) {cout << m/v[i] << endl; break;}
+  }
+  // for(int i = n; i <= m; i++){
+  //   if(m%i == 0) {cout << m/i << endl; break;}
+  // }
   return 0;
 }

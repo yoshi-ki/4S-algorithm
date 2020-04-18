@@ -324,6 +324,22 @@ struct Sieve {
 
 
 int main() {
-  
+  vector<int> v;
+  int n; cin >> n;
+  vector<int> a(n);
+  rep(i,n){
+    cin >> a[i];
+  }
+  reverse(all(a));
+
+  v.push_back(a[0]);
+  for(int i = 1; i < n; i++){
+    int digit = upper_bound(all(v),a[i]) - v.begin();
+    if(digit == v.size() && v[digit] <= a[i]) v.push_back(a[i]);
+    else{
+      v[digit] = a[i];
+    }
+  }
+  cout << v.size() << endl;
   return 0;
 }

@@ -324,6 +324,91 @@ struct Sieve {
 
 
 int main() {
-  
+  int T;
+  cin >> T;
+  rep(test,T){
+    int n,m;
+    cin >> n >> m;
+    if(n%2==1&&m%2==1){
+      int flag = 1;
+      rep(i,n){
+        rep(j,m){
+          if(flag) {flag = 0; cout << 'B';}
+          else {flag = 1; cout << 'W';}
+        }
+        cout <<"" << endl;
+      }
+    }
+    else if(m%2==1){
+      int flag = 1;
+      rep(i,n-1){
+        rep(j,m){
+          if(flag) {flag = 0; cout << 'B';}
+          else {flag = 1; cout << 'W';}
+        }
+        cout <<"" << endl;
+      }
+      flag = 1;
+      rep(i,m-1){
+        if(flag) {flag = 0; cout << 'W';}
+        else {flag = 1; cout << 'B';}
+      }
+      cout << 'B' << endl;
+    }
+    else if(n%2==1){
+      rep(i,(n-1)/2){
+        int flag = 1;
+        rep(j,m){
+          if(flag) {flag = 0; cout << 'B';}
+          else {flag = 1; cout << 'W';}
+        }
+        cout <<"" << endl;
+        flag = 1;
+        rep(j,m){
+          if(flag) {flag = 0; cout << 'W';}
+          else {flag = 1; cout << 'B';}
+        }
+        cout <<"" << endl;
+      }
+      int flag = 1;
+      rep(j,m-1){
+        if(flag) {flag = 0; cout << 'B';}
+        else {flag = 1; cout << 'W';}
+      }
+      cout << 'B' << endl;
+    }
+    else{
+      rep(i,(n-2)/2){
+        int flag = 1;
+        rep(j,m){
+          if(flag) {flag = 0; cout << 'W';}
+          else {flag = 1; cout << 'B';}
+        }
+        cout <<"" << endl;
+        flag = 1;
+        rep(j,m){
+          if(flag) {flag = 0;cout << 'B';}
+          else {flag = 1; cout << 'W';}
+        }
+        cout <<"" << endl;
+      }
+      int flag = 1;
+      rep(j,m){
+        if(flag) {flag = 0; cout << 'W';}
+        else {flag = 1; cout << 'B';}
+      }
+      cout << "" << endl;
+      flag = 1;
+      rep(j,m-1){
+        if(flag) {flag = 0; cout << 'B';}
+        else {flag = 1; cout << 'W';}
+      }
+      cout << 'B' << endl;
+    }
+
+
+
+
+  }
   return 0;
 }

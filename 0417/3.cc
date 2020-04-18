@@ -324,6 +324,44 @@ struct Sieve {
 
 
 int main() {
-  
+  int D;
+  int G;
+  cin >> D >> G;
+  vector<int> p(D);
+  vector<int> c(D);
+  rep(i,D){
+    cin >> p[i];
+    cin >> c[i];
+  }
+
+  int ans = INF;
+
+  rep(i, 1<<D){
+    //iには何をコンプリートするかが書かれている
+    int tempans = 0;
+    int tempcost = 0;
+    //completeするのにかかったコストをまずみる
+    rep(j,D){
+      if(i >> j & 1) {tempans += p[j]; tempcost += c[j]; tempcost += 100 * (j+1) * p[j];}
+    }
+    if(tempcost >= G) {ans = min(tempans ,ans); continue;}
+
+    //まだ無理そうやったら足していく
+    for(int j = D-1; j >= 0; j--){
+      //j番目を使ってcostを足していく
+      if(!(i >> j & 1)){
+        int flag = 0;
+        rep(k,p[j]){
+          tempcost += 100 * (j+1);
+          tempans++;
+          if(tempcost >= G) {flag = 1; break;}
+        }
+        if(flag) break;
+      }
+    }
+    ans = min(ans,tempans);
+    // cout << i << ' ' << ans << endl;
+  }
+  cout << ans << endl;
   return 0;
 }

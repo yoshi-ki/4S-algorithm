@@ -324,6 +324,54 @@ struct Sieve {
 
 
 int main() {
-  
+  ll n,m;
+  cin >> n >> m;
+  vector<ll> x(n);
+  vector<ll> y(n);
+  vector<ll> z(n);
+  rep(i,n){
+    cin >> x[i] >> y[i] >> z[i];
+  }
+
+  vector<ll> mx(n);
+  vector<ll> my(n);
+  vector<ll> mz(n);
+  rep(i,n){mx[i] = -x[i];}
+  rep(i,n){my[i] = -y[i];}
+  rep(i,n){mz[i] = -z[i];}
+
+  auto calc = [&](vector<ll>x1, vector<ll> y1, vector<ll> z1 ){
+    vector<ll> sum;
+    rep(i,x1.size()){
+      sum.push_back (x1[i] + y1[i] + z1[i]);
+    }
+    sort(all(sum));
+    reverse(all(sum));
+    ll res = 0;
+    rep(i,m){
+      res += sum[i];
+    }
+    return res;
+  };
+
+  ll ans = 0;
+  ans = max(ans,calc(x,y,z));
+  ans = max(ans,calc(mx,y,z));
+  ans = max(ans,calc(x,my,z));
+  ans = max(ans,calc(x,y,mz));
+  ans = max(ans,calc(mx,my,z));
+  ans = max(ans,calc(x,my,mz));
+  ans = max(ans,calc(mx,y,mz));
+  ans = max(ans,calc(mx,my,mz));
+
+
+
+
+
+  cout << ans << endl;
+
+
+
+
   return 0;
 }

@@ -39,7 +39,7 @@ ll gcd(ll x, ll y) { return y ? gcd(y,x%y) : x;}
 
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -130,7 +130,7 @@ mint nCr(int n, int r){
   }
   return ans;
 }
-// --- MOD用end ---*/
+// --- MOD用end ---
 
 /*
 // --- Union Find tree start ---
@@ -324,6 +324,13 @@ struct Sieve {
 
 
 int main() {
-  
+  int n,k;
+  cin >> n >> k;
+  for(int i = 1; i <= k; i++){
+    if(n-k+1 >= i){
+      cout << nCr(k-1,i-1) * nCr(n-k+1,i) << endl;
+    }
+    else cout << 0 << endl;
+  }
   return 0;
 }

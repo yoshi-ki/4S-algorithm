@@ -321,9 +321,36 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+//木の持ち方
+vector<int> to[200005];
+int counter[200005];
 
+void dfs(int now,int score,int p){
+  counter[now] += score;
+  rep(i,to[now].size()){
+    if(to[now][i] == p) continue;
+    dfs(to[now][i],counter[now],now);
+  }
+  return;
+}
 
 int main() {
-  
+  int N, Q;
+  cin >> N >> Q;
+  //create 0-indexed tree
+  rep(i,N-1){
+    int a,b;
+    cin >> a >> b;
+    to[a-1].push_back(b-1);
+    to[b-1].push_back(a-1);
+  }
+  rep(i,Q){
+    int p,x;
+    cin >> p >> x;
+    //-a because 0-indexed
+    counter[p-1] += x;
+  }
+  dfs(0,0,-1);
+  rep(i,N) cout << counter[i] << " ";
   return 0;
 }

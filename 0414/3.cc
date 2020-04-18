@@ -324,6 +324,51 @@ struct Sieve {
 
 
 int main() {
-  
+  int n,m;
+  cin >> n >> m;
+  vector<pair<int,int>> to[200005];
+  rep(i,m){
+    int li,ri,di;
+    cin >> li >> ri >> di;
+    to[li-1].push_back(pair<int,int>(ri-1,di));
+    to[ri-1].push_back(pair<int,int>(li-1,-di));
+  }
+
+  vector<int> dis(n);
+  rep(i,n) dis[i] = INF;
+  int flag = 0;
+
+  rep(i,n){
+    if(dis[i] == INF){
+      //未探索であれば探索を行う
+      deque <int> q;
+      q.push_back(i);
+      dis[i] = 0;
+      while(!q.empty()){
+        int now = q.front();
+        q.pop_front();
+        rep(j,to[now].size()){
+          if(dis[to[now][j].first] == INF){
+            //まだ辿ってなかったら更新してあげる
+            dis[to[now][j].first] = dis[now] + to[now][j].second;
+            q.push_back(to[now][j].first);
+          }
+          else{
+            //辿っていたらcheckする
+            if(dis[now] + to[now][j].second != dis[to[now][j].first]) {
+              flag = 1;
+              // cout << now << " " << to[now][j].first << endl;
+            }
+          }
+        }
+      }
+    }
+    if(flag) break;
+  }
+
+  if(flag) cout << "No" << endl;
+  else cout << "Yes" << endl;
+
+
   return 0;
 }

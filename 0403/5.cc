@@ -39,7 +39,7 @@ ll gcd(ll x, ll y) { return y ? gcd(y,x%y) : x;}
 
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -130,7 +130,7 @@ mint nCr(int n, int r){
   }
   return ans;
 }
-// --- MOD用end ---*/
+// --- MOD用end ---
 
 /*
 // --- Union Find tree start ---
@@ -321,9 +321,35 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+mint dp[100005][13];
+int help [6] = {1,10,9,12,3,4};
 
 int main() {
-  
+  string s;
+  cin >> s;
+  reverse(all(s));
+  rep(i,100005)rep(j,13) dp[i][j] = 0;
+  dp[0][0] = 1;
+  rep(i,s.size()){
+    //i+1けた目を考えている
+    if(s[i] == '?'){
+      rep(digit,10){
+        int dmod = digit * help[i % 6];
+        rep(j,13){
+          dp[i+1][(j+dmod)%13] += dp[i][j];
+        }
+      }
+    }
+    else {
+      int digit = s[i] - '0';
+      int dmod = digit * help[i % 6];
+      rep(j,13){
+        dp[i+1][(j+dmod)%13] += dp[i][j];
+        //cout << j << " " << dp[i][(j+dmod)%13] << endl;
+      }
+    }
+  }
+  //rep(i,13) cout << i << " " << dp[s.size()][i] << endl;
+  cout << dp[s.size()][5] << endl;
   return 0;
 }

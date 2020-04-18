@@ -321,9 +321,61 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+vector<int> to[200005];
 
+ll dis1[200005];
+ll disn[200005];
+
+void dfs1(int now,int p,int d){
+  //nowの距離の更新をする
+  dis1[now] = d;
+  rep(i,to[now].size()){
+    if(to[now][i] == p) continue;
+    dfs1(to[now][i],now,d+1);
+  }
+  return ;
+};
+
+void dfsn(int now,int p,int d){
+  //nowの距離の更新をする
+  disn[now] = d;
+  rep(i,to[now].size()){
+    if(to[now][i] == p) continue;
+    dfsn(to[now][i],now,d+1);
+  }
+  return ;
+};
 
 int main() {
-  
+  int n;
+  cin >> n;
+  rep(i,n-1){
+    int ai,bi;
+    cin >> ai >> bi;
+    to[ai-1].push_back(bi-1);
+    to[bi-1].push_back(ai-1);
+  }
+
+
+  //１からのdistanceの記録を行う
+
+
+  dfs1(0,0,0);
+  dfsn(n-1,n-1,0);
+
+  ll sunuke = 0;
+  ll fene = 0;
+
+  rep(i,n){
+    if(dis1[i] > disn[i]) sunuke++;
+    else fene++;
+  }
+
+  if(sunuke >= fene) cout << "Snuke" << endl;
+  else cout << "Fennec" << endl;
+
+
+
+
   return 0;
 }

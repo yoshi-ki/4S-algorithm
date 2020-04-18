@@ -324,6 +324,52 @@ struct Sieve {
 
 
 int main() {
-  
+  int n,a,b,c;
+  cin >> n >> a >> b >> c;
+  vector<int> l(n);
+  rep(i,n){
+    cin >> l[i];
+  }
+  int ans = INF;
+  rep(i,1<<(2*n)){
+    int tempa = 0;
+    int tempb = 0;
+    int tempc = 0;
+    int tempmagic = 0;
+    rep(j,n){
+      int digit1 = (i>>(2*j) & 1);
+      int digit2 = (i>>(2*j+1) & 1);
+      //cout << i << " " <<  j << " " << digit1 << " " << digit2 << endl;
+      if(digit1 == 1 && digit2 == 1){
+        //Aにいれる
+        tempa += l[j];
+        tempmagic += 10;
+      }
+      else if(digit1 == 1 && digit2 == 0){
+        tempb += l[j];
+        tempmagic += 10;
+      }
+      else if(digit1 == 0 && digit2 == 1){
+        tempc += l[j];
+        tempmagic += 10;
+      }
+      else{
+        continue;
+      }
+    }
+    // if(tempa == 98){
+    // cout << tempa <<" " <<   tempb << " " << tempc << endl;
+    // }
+    if(tempa == 0 || tempb == 0 || tempc == 0) continue;
+
+    tempmagic += abs(tempa-a);
+    tempmagic += abs(tempb-b);
+    tempmagic += abs(tempc-c);
+
+    // if(tempmagic == 140) cout << tempa << " " << tempb << " " << tempc << endl;
+
+    ans = min(ans,tempmagic);
+  }
+  cout << ans-30 << endl;
   return 0;
 }

@@ -324,6 +324,40 @@ struct Sieve {
 
 
 int main() {
-  
+  ll n;
+  cin >> n;
+  ll x0;
+  ll y0;
+  ll h0;
+  vector<ll> xs(n);
+  vector<ll> ys(n);
+  vector<ll> hs(n);
+  rep(i,n){
+    ll x,y,h;
+    cin >> x >> y >> h;
+    xs[i] = x;
+    ys[i] = y;
+    hs[i] = h;
+    if(h!=0) {h0=h;x0=x;y0=y;}
+  }
+
+  auto check = [&](ll cx, ll cy, ll ch){
+    bool res = true;
+    rep(i,n){
+      //if(abs(cx-xs[i]) + abs(cy-ys[i]) != (ch-hs[i])) res = false;
+      if(hs[i] != max(ch - abs(xs[i]-cx) - abs(ys[i]-cy), 0LL)) res = false;
+    }
+    // cout << cx << " " << cy << " " << ch << endl;
+    // cout << res << endl;
+    return res;
+  };
+
+  rep(cx,101)rep(cy,101){
+    //中心がcx,cyの時に大丈夫か否かを判定する
+    //まず中心の高さを求める
+    //ll ch = hs[0] + abs(cx-xs[0]) + abs(cy - ys[0]);
+    ll ch = h0 + abs(cx-x0) + abs(cy - y0);
+    if(check(cx,cy,ch)) {cout << cx << " " << cy << " " << ch << endl; break;}
+  }
   return 0;
 }

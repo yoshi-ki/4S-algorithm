@@ -324,6 +324,41 @@ struct Sieve {
 
 
 int main() {
-  
+  int T;
+  cin >> T;
+  rep(test,T){
+    int n; cin >> n;
+    vector<int> a(n);
+    vector<int> b(n);
+    rep(i,n) cin >> a[i];
+    rep(i,n) cin >> b[i];
+    int flag = 0;
+    int start = 0;
+    rep(i,n){
+      if(a[i] == 0){
+        if(a[i] != b[i]) {flag = 1;break;}
+      }
+      else {start = i; break;}
+    }
+    if(a[start]!=b[start]) flag = 1;
+    if(flag) cout << "NO" << endl;
+    else{
+      if(a[start] == 1){
+        for(int j = start+1; j <n; j++){
+          if(a[j] > b[j]) {flag = 1; break;}
+          if(a[j] == -1) break;
+        }
+      }
+      else if(a[start] == -1){
+        for(int j = start+1; j <n; j++){
+          if(a[j] < b[j]) {flag = 1; break;}
+          if(a[j] == 1) break;
+        }
+
+      }
+      if(flag) cout << "NO" << endl;
+      else cout << "YES" << endl;
+    }
+  }
   return 0;
 }

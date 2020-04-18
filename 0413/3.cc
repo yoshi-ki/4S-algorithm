@@ -321,9 +321,48 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+ll d[205][205];
 
 int main() {
-  
+  int n,m,r;
+  cin >> n >> m >> r;
+  vector<int> rs(r);
+  rep(i,r) {int ri; cin >> ri; rs[i] = ri-1;}
+
+  rep(i,205)rep(j,205) d[i][j] = LLINF;
+
+  rep(i,m){
+    int ai,bi,ci;
+    cin >> ai >> bi >> ci;
+    d[ai-1][bi-1] = ci;
+    d[bi-1][ai-1] = ci;
+  }
+
+
+  rep(k,n){
+    rep(i,n){
+      rep(j,n){
+        if(d[i][j] > d[i][k] + d[k][j]) d[i][j] = d[i][k] + d[k][j];
+      }
+    }
+  }
+
+
+  //ここから順列を生成して、経路の長さを出力
+  vector<int> v(r);
+  rep(i,r) v[i] = i;
+  ll ans = LLINF;
+  do{
+    ll tempans = 0;
+    // rep(i,v.size()) cout << v[i] << " ";
+    // cout <<"" << endl;
+    rep(i,v.size()-1){
+      tempans += d[rs[v[i+1]]][rs[v[i]]];
+    }
+    ans = min(ans,tempans);
+  }while(next_permutation(v.begin(),v.end()));
+
+  cout << ans << endl;
+
   return 0;
 }

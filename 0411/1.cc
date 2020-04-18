@@ -324,6 +324,45 @@ struct Sieve {
 
 
 int main() {
-  
+  ll A,B,C,D,E,F;
+  cin >> A >> B >> C >> D >> E >> F;
+  vector <ll> w;
+  //wには実現可能な水の重さが書かれている
+  rep(i,F/(100*A)+1){
+    rep(j,F/(100*B)+1){
+      if(i!=0|| j!=0){
+        w.push_back(i*100*A + j*100*B);
+      }
+    }
+  }
+
+  vector<ll> s;
+  rep(i,F/C+1){
+    rep(j,F/D+1){
+        s.push_back(i*C + j*D);
+      //if(i*C + j * D == 934) cout << i << j << endl;
+    }
+  }
+
+  long double tempmax = 0;
+  ll ans1 = 0;
+  ll ans2 = 0;
+  rep(i,w.size()){
+    rep(j,s.size()){
+      if(w[i] + s[j] > F) continue;
+      if(100 * s[j] > E * w[i]) continue;
+      long double dense = (long double)(100.0 * s[j])/(long double)(w[i] + s[j]);
+      //if(s[j] == 934) cout << tempmax << " " << dense<< endl;
+      if(tempmax < dense) {
+        ans1 = w[i] + s[j];
+        ans2 = s[j];
+        tempmax = dense;
+      }
+    }
+  }
+
+  if(tempmax == 0.0) ans1 = 100 * A;
+
+  cout << ans1 << " " << ans2 << endl;
   return 0;
 }

@@ -322,8 +322,70 @@ struct Sieve {
 /* --- ここからコード --- */
 
 
+bool sortbysec(pair<ll,ll> &a, pair<ll,ll> &b){
+  return (a.second < b.second);
+}
 
 int main() {
-  
+  int n,m;
+  cin >> n >> m;
+  vector<ll> a(n);
+  rep(i,n) cin >> a[i];
+  vector<pair<ll,ll>> bc(m);
+  rep(i,m){
+    cin >> bc[i].first;
+    cin >> bc[i].second;
+  }
+  sort(all(bc),sortbysec);
+
+  reverse(all(bc));
+  sort(all(a));
+
+  int now = 0;
+  int flag = 0;
+  rep(i,m){
+    rep(j,bc[i].first){
+      if(bc[i].second > a[now]){
+        a[now] = bc[i].second;
+        now++;
+      }
+      else {flag = 1; break;}
+    }
+    // rep(i,n) cout << a[i] << " ";
+    // cout << "" << endl;
+    if(flag) break;
+  }
+
+
+  //書き換えた最後の場所を表す
+  // int place = n-1;
+
+  // rep(i,m){
+  //   //bc[m]より小さい場所を見つけて、それいこうhoge文字を書き換える
+
+  //   for(int j = place; j >= 0; j--){
+  //     if(bc[i].second > a[j]){
+  //       place = j;
+  //       break;
+  //     }
+  //   }
+  //   //placeから置き換えをスタート
+  //   int last = max(0ll,place - bc[i].first + 1);
+  //   for(int j = place; j >= last; j--){
+  //     a[j] = bc[i].second;
+  //   }
+
+  //   cout << last << " " << place << endl;
+
+  //   int place = last - 1;
+  //   rep(i,n) cout << a[i] << " ";
+  //   if(place == -1) break;
+  //   cout << "" << endl;
+  // }
+
+  ll ans = 0;
+  rep(i,n) ans += a[i];
+  cout << ans << endl;
+
   return 0;
 }

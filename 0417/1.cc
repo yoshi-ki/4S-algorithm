@@ -39,7 +39,7 @@ ll gcd(ll x, ll y) { return y ? gcd(y,x%y) : x;}
 
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -324,6 +324,12 @@ struct Sieve {
 
 
 int main() {
-  
+  int w;
+  int h;
+  cin >> w >> h;
+  mint W = w;
+  mint H = h;
+  combination comb(w+h-2);
+  cout << comb(w+h-2,w-1) << endl;
   return 0;
 }

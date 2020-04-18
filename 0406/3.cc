@@ -324,6 +324,25 @@ struct Sieve {
 
 
 int main() {
-  
+  int n;
+  cin >> n;
+  vector<ll> a(n);
+  rep(i,n) cin >> a[i];
+  ll tempdiff = a[0];
+  rep(i,n-1){
+    tempdiff = a[i+1] - tempdiff;
+  }
+
+
+  vector<ll> b;
+  b.push_back(tempdiff);
+  rep(i,n-1){
+    b.push_back(2 * a[i] - b[i]);
+  }
+
+  rep(i,n){
+    cout << b[i] << " " ;
+  }
+
   return 0;
 }

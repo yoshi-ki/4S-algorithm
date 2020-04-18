@@ -31,14 +31,6 @@ using namespace std;
 using ll = long long;
 
 
-
-//普通のライブラリ
-
-//最大公約数
-ll gcd(ll x, ll y) { return y ? gcd(y,x%y) : x;}
-
-
-
 /*
 // --- MOD用start ---
 template <int MOD>
@@ -253,23 +245,7 @@ struct SegTree {
 
 /*
 // --- 素数系のライブラリ ---
-
-//素因数分解をpairで出す関数
-vector<pair<ll,int>> factorize(ll n) {
-  vector<pair<ll,int>> res;
-  for (ll i = 2; i*i <= n; ++i) {
-    if (n%i) continue;
-    res.emplace_back(i,0);
-    while (n%i == 0) {
-      n /= i;
-      res.back().second++;
-    }
-  }
-  if (n != 1) res.emplace_back(n,1);
-  return res;
-};
-
-//エラトステネスの篩(連続する整数について素数判定や素因数分解をしたい時)
+//エラストテネスの篩
 struct Sieve {
   int n;
   vector<int> f, primes;
@@ -315,7 +291,6 @@ struct Sieve {
 // --- 素数系のライブラリend ---
 */
 
-
 //when you want to cout double ...
 //cout << fixed << setprecision(14) << (double)(i*i*i) << endl;
 
@@ -324,6 +299,58 @@ struct Sieve {
 
 
 int main() {
-  
+  ll n,k;
+  cin >> n>> k;
+  ll amax = 0;
+  ll fmax = 0;
+  vector<ll> a(n);
+  vector<ll> f(n);
+  rep(i,n){
+    ll tempa;
+    cin >> tempa;
+    amax = max(amax,tempa);
+    a[i] = tempa;
+  }
+  rep(i,n){
+    ll tempf;
+    cin >> tempf;
+    fmax = max(fmax,tempf);
+    f[i] = tempf;
+  }
+
+  sort(all(a));
+  sort(all(f));
+  reverse(all(f));
+
+  ll l = 0;
+  ll r = amax * fmax * n;
+  auto check = [&](ll num){
+      vector<ll> f2(n);
+      rep(i,n){
+        //f[i]を何回まで加えていいか
+        ll tempcount = 0;
+        tempcount += num / f[i];
+        f2[i] = tempcount;
+      }
+      ll sum = 0;
+
+      rep(i,n){
+        if(f2[i] < a[i]) {sum += (a[i] - f2[i]);}
+      }
+      //cout << num << " " << sum << endl;
+      return (sum > k);
+    };
+  while(l < r-1){
+    ll center = (l+r)/2;
+    if(check(center)) l = center;
+    else r = center;
+  }
+  if(!check(0)) cout << 0 << endl;
+  else cout << r << endl;
+
+
+
+
+
   return 0;
 }

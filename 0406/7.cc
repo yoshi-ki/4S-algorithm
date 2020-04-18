@@ -321,9 +321,42 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+vector<pair<int,int>> to[100005];
+vector<int> ans;
+
+void dfs(int now, int color, int p){
+  ans[now] = color;
+  rep(i,to[now].size()){
+    if(to[now][i].first == p) continue;
+    if(to[now][i].second % 2 == 0){
+      dfs(to[now][i].first,color,now);
+    }
+    else{
+      dfs(to[now][i].first,1-color,now);
+    }
+  }
+  return ;
+}
 
 
 int main() {
-  
+  int n;
+  cin >> n;
+  rep(i,n-1){
+    int u,v,w;
+    cin >> u >> v >> w;
+    to[u].push_back(pair<int,int>(v,w));
+    to[v].push_back(pair<int,int>(u,w));
+  }
+
+
+  ans.resize(n+1);
+
+  dfs(1,0,1);
+
+  rep(i,n){
+    cout << ans[i+1] << endl;
+  }
+
   return 0;
 }

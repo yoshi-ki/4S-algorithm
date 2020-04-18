@@ -321,9 +321,31 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+int dp[2000][2000];
 
 int main() {
-  
+  int T;
+  cin >> T;
+  rep(test,T){
+    string x;
+    string y;
+    cin >> x >> y;
+    int n1 = x.size();
+    int n2 = y.size();
+
+    rep(i,n1+1)rep(j,n2+1) dp[i][j] = 0;
+
+    for(int i = 1; i <= n1; i++){
+      for(int j = 1; j <= n2; j++){
+        if(x[i-1] == y[j-1]){
+          dp[i][j] = dp[i-1][j-1] + 1;
+        }
+        else {
+          dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+        }
+      }
+    }
+    cout << dp [n1][n2] << endl;
+  }
   return 0;
 }

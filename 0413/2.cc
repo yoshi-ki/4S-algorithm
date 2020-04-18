@@ -324,6 +324,74 @@ struct Sieve {
 
 
 int main() {
-  
+  int n;
+  cin >> n;
+  string s;
+  cin >> s;
+
+  int flag = 0;
+  //01のvectorで狼と羊を表現
+  //0 : sheep 1 : wolf
+  rep(zero,2){
+    rep(one,2){
+      //一番めと二番めを固定して考える
+      vector <int> v;
+      v.push_back(zero);
+      v.push_back(one);
+      for(int i = 1; i<= n-2; i++){
+        //v[i]を起点としてcheckを行うフェーズ
+        if(s[i] == 'o'){
+          if(v[i] == 0){v.push_back(v[i-1]);}
+          else{v.push_back(1 - v[i-1]);}
+        }
+        else{
+          if(v[i] == 1){v.push_back(v[i-1]);}
+          else{v.push_back(1 - v[i-1]);}
+        }
+      }
+      //辻褄が合えば、flagを立ててbreak
+      if(s[n-1] == 'o'){
+        if(v[n-1] == 0) {
+          if(v[n-2] != v[0])continue;
+        }
+        else{
+          if(v[n-2] == v[0]) continue;
+        }
+      }
+      else{
+        if(v[n-1] == 1) {
+          if(v[n-2] != v[0])continue;
+        }
+        else{
+          if(v[n-2] == v[0]) continue;
+        }
+      }
+      if(s[0] == 'o'){
+        if(v[0] == 0){
+          if(v[1] != v[n-1]) continue;
+        }
+        else{
+          if(v[1] == v[n-1]) continue;
+        }
+      }
+      else {
+        if(v[0] == 1){
+          if(v[1] != v[n-1]) continue;
+        }
+        else{
+          if(v[1] == v[n-1]) continue;
+        }
+      }
+      rep(i,v.size()){
+        if(v[i] == 0)cout << 'S' ;
+        else cout << 'W';
+      }
+      flag = flag + 1;
+      break;
+    }
+    if(flag) break;
+  }
+  if(!flag) cout << -1 << endl;
+
   return 0;
 }

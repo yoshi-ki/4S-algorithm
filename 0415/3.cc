@@ -39,7 +39,7 @@ ll gcd(ll x, ll y) { return y ? gcd(y,x%y) : x;}
 
 
 
-/*
+
 // --- MOD用start ---
 template <int MOD>
 struct ModInt {
@@ -321,9 +321,70 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+mint dis[1005][1005];
+mint A[1005][1005];
+
+int h,w;
+
+int ax[4] = {1,-1,0,0};
+int ay[4] = {0,0,1,-1};
+
+mint dfs(int i,int j){
+  //4方向について探索
+  int flag = 1;
+  mint res = 0;
+  rep(k,4){
+    int ni = i + ax[k];
+    int nj = j + ay[k];
+    if(ni < 0 | ni >= h | nj < 0 | nj >= w) continue;
+    if(A[ni][nj].val <= A[i][j].val) continue;
+    flag = 0;
+    if(dis[ni][nj] != INF) {res += dis[ni][nj]; continue;}
+    res += dfs(ni,nj);
+  }
+  //移動できなかった場合には
+  if(flag) {dis[i][j] = 1; return 1;}
+  else{
+    dis[i][j] = res+1; return (res + 1);
+  }
+}
 
 
 int main() {
-  
+  rep(i,1005)rep(j,1005) dis[i][j] = INF;
+  cin >> h >> w;
+  rep(i,h){
+    rep(j,w){
+      cin >> A[i][j];
+    }
+  }
+
+
+  //探索のコード
+  rep(i,h){
+    rep(j,w){
+      if(dis[i][j] == INF){
+        dfs(i,j);
+      }
+    }
+  }
+
+
+mint ans = 0;
+  rep(i,h){
+    rep(j,w){
+      ans = ans + dis[i][j];
+    }
+  }
+
+  cout << ans << endl;
+
+
+  // rep(i,h){
+  //   rep(j,w){
+  //     cout <<dis[i][j] << " ";
+  //   }
+  //   cout << " " << endl;
+  // }
   return 0;
 }

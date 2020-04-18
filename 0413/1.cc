@@ -293,7 +293,7 @@ struct Sieve {
   vector<int> factorList(int x) {
     vector<int> res;
     while (x != 1) {
-      res.push_back(f[x]);
+  l    res.push_back(f[x]);
       x /= f[x];
     }
     return res;
@@ -324,6 +324,80 @@ struct Sieve {
 
 
 int main() {
-  
+  int n;
+  cin >> n;
+  int C;
+  cin >> C;
+  ll D[505][505];
+  rep(i,C){
+    rep(j,C){
+      int c;
+      cin >> c;
+      D[i][j] = c;
+    }
+  }
+  //３で割ったあまりごとに格納場所を変更
+  vector<ll> zeros;
+  vector<ll> ones;
+  vector<ll> twoes;
+  for(int i= 1; i <= n; i++){
+    for(int j = 1; j <= n; j++){
+      int c;
+      cin >> c;
+      if((i+j)%3 == 0) zeros.push_back(c-1);
+      else if((i+j)%3 == 1) ones.push_back(c-1);
+      else twoes.push_back(c-1);
+    }
+  }
+
+  //rep(i,ones.size()) cout << ones[i] << ' ' ;
+
+  //あまりごとにscoreを作成しよう
+  //score,colorのpairのvector
+  auto calc_score = [&](vector<ll> mods){
+    vector<pair<ll,ll>> tempscores;
+    rep(c,C){
+      //cは揃えるcolorを表す
+      int tempscore = 0;
+      rep(i,mods.size()){
+        tempscore += D[mods[i]][c];
+        // cout << D[mods[i]][c] << endl;
+      }
+      tempscores.push_back(pair<ll,ll>(tempscore,c));
+    }
+    sort(all(tempscores));
+    // rep(i,tempscores.size()){
+    //   cout << tempscores[i].first << " " <<tempscores[i].second << endl;
+    // }
+    return tempscores;
+  };
+
+  vector<pair<ll,ll>> scores0 = calc_score(zeros);
+  vector<pair<ll,ll>> scores1 = calc_score(ones);
+  vector<pair<ll,ll>> scores2 = calc_score(twoes);
+
+  // rep(i,scores1.size()){
+  //   cout << scores1[i].first << " " <<scores1[i].second << endl;
+  // }
+
+  ll ans = LLINF;
+  rep(i,3){
+    rep(j,3){
+      rep(k,3){
+        if(scores0[i].second != scores1[j].second && scores1[j].second != scores2[k].second && 
+          scores2[k].second != scores0[i].second){
+          ans = min(ans,scores0[i].first + scores1[j].first + scores2[k].first);
+        }
+      }
+    }
+  }
+
+
+cout << ans << endl;
+
+
+
+
+
   return 0;
 }

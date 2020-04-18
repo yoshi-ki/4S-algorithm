@@ -321,9 +321,43 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+int K;
+
+int dfs(int k, int n, string s){
+  if(s.size() == 0){
+    rep(i,9){
+      char a = '0' + (i+1);
+      string ns = s + a;
+      k = dfs(k,n,ns);
+    }
+  }
+  else if(s.size() == n){
+    if(k==K){
+      cout << s << endl;
+    }
+    k++;
+    return k;
+  }
+  else{
+    rep(i,10){
+      if(abs(s[s.size()-1] - ('0' + i)) <= 1) {
+        char a = '0' + i;
+        string ns = s + a;
+        k = dfs(k,n,ns);
+      }
+    }
+  }
+  return k;
+}
 
 
 int main() {
-  
+  cin >> K;
+  int n = 1;
+  int k = 1;
+  while(k <= K){
+    k = dfs(k,n,"");
+    n++;
+  }
   return 0;
 }

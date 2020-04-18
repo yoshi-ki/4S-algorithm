@@ -324,6 +324,17 @@ struct Sieve {
 
 
 int main() {
-  
+  ll k;
+  cin >> k;
+  ll sum = 0;
+  for(int i= 1; i <= k; i++){
+    for(int j = 1; j <= k; j++){
+      for(int l = 1; l <= k; l++){
+        ll temp = gcd(gcd(i,j),l);
+        sum += temp;
+      }
+    }
+  }
+  cout << sum << endl;
   return 0;
 }

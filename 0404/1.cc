@@ -324,6 +324,34 @@ struct Sieve {
 
 
 int main() {
-  
+  string s,t;
+  cin >> s >> t;
+  ll n = s.size();
+  vector<deque<ll>> sinfo(26,deque<ll>());
+  rep(i,n){
+    sinfo[s[i]-'a'].push_back(i);
+  }
+  //まず作れるかどうかのcheck
+  int flag = 0;
+  rep(i,t.size()){
+    if(sinfo[t[i]-'a'].empty()) flag = 1;
+  }
+  if(flag) {cout << -1 << endl; return 0;}
+
+  ll temp = 0;
+  ll ans = 0;
+  vector<deque<ll>> tempsinfo(26,deque<ll>());
+  copy(all(sinfo),tempsinfo.begin());
+  rep(i,t.size()){
+    int digit = t[i] - 'a';
+    if(tempsinfo[digit].empty()){copy(all(sinfo),tempsinfo.begin()); ans++; i--; temp = 0; continue;}
+    if(tempsinfo[digit].front() < temp){copy(all(sinfo),tempsinfo.begin()); ans++; i--; temp = 0; continue;}
+    temp = tempsinfo[digit].front();
+    tempsinfo[digit].pop_front();
+    //cout << i << temp << endl;
+  }
+
+  cout << ans * n + temp+1 << endl;
+
   return 0;
 }

@@ -26,6 +26,7 @@
 #define INF 2000000000 //2e9
 #define LLINF 2000000000000000000ll //2e18
 #define sq(x) ((x)*(x))
+#define endl "\n"
 
 using namespace std;
 using ll = long long;
@@ -321,9 +322,71 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+int dp[100005];
 
 int main() {
-  
+  int n;
+  cin >> n;
+  vector<int>v;
+  v.push_back(1);
+  int temp = 6;
+  while(temp <= n){
+    v.push_back(temp);
+    temp *= 6;
+  }
+  temp = 9;
+  while(temp <= n){
+    v.push_back(temp);
+    temp *= 9;
+  }
+
+  //rep(i,v.size()) cout << v[i] << " " ;
+
+  rep(i,n){
+    //dp[i+1]を更新
+    int temp = INF;
+    rep(j,v.size()){
+      //cout << dp[i] << " " << v[j] << endl;
+      if(i+1-v[j] < 0) continue;
+      temp = min(dp[i+1-v[j]]+1,temp);
+    }
+    dp[i+1] = temp;
+  }
+
+  int ans = dp[n];
+
+  // deque<int> sixes;
+  // deque<int> nines;
+  // sixes.push_front(0);
+  // nines.push_front(0);
+  // int temp = 1;
+  // while(temp < n){
+  //   sixes.push_front(temp);
+  //   temp *= 6;
+  // }
+  // temp = 1;
+  // while(temp < n){
+  //   nines.push_front(temp);
+  //   temp *= 9;
+  // }
+  // int ans = 0;
+  // while(n>=6){
+  //   int flag = 0;
+  //   if(nines.front() > sixes.front()) flag = 1;
+  //   if(flag){
+  //     ans += n/nines.front();
+  //     n = n % nines.front();
+  //     nines.pop_front();
+  //   }
+  //   else{
+  //     ans += n/sixes.front();
+  //     n = n % sixes.front();
+  //     sixes.pop_front();
+  //   }
+  //   cout << n << endl;
+  //   cout << ans << endl;
+  // }
+  // ans += n;
+  cout  << ans << endl;
   return 0;
 }

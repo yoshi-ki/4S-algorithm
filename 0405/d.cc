@@ -321,9 +321,50 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+ll dp[100005][10];
 
 int main() {
-  
+  ll k;
+  cin >> k;
+  ll sum = 0;
+  vector<ll> sumlist;
+  int digit = 0;
+  while(sum < k){
+    if(digit == 0) {rep(i,10) {dp[digit][i] = 1;} sum = sum + 9; sumlist.push_back(sum);digit++; continue;}
+    rep(i,10){
+      if(i==0) {dp[digit][i] = dp[digit-1][1] + dp[digit-1][0];if(digit==1)dp[digit][i]--;}
+      else if(i == 9) {dp[digit][i] = dp[digit-1][i-1] + dp[digit-1][i]; sum += dp[digit][i];}
+      else{
+        dp[digit][i] = dp[digit-1][i-1] + dp[digit-1][i] + dp[digit-1][i+1];
+        sum += dp[digit][i];
+      }
+    }
+    sumlist.push_back(sum);
+    digit++;
+  }
+
+  digit--;
+
+
+  vector<int> ans;
+  ll tempsum = 0;
+  int checkstart = 0;
+  for(int i = digit; i >=0; i--){
+    if(i==digit)checkstart = 1;
+    //digitは0indexedの桁数
+    if(i>=1) tempsum = sumlist[i-1];
+    if(tempsum>=k) {ans.push_back(0); checkstart = 0; tempsum = 0;continue;}
+    cout << tempsum << endl;
+    cout << "k= " << k << endl;
+    for(int j = checkstart; j < 10; j++){
+      tempsum += dp[i][j];
+      cout << j << " " << tempsum << endl;
+      //jから調べていって超えたらそれを選べば良い
+      if(tempsum >= k) {ans.push_back(j); k -= (tempsum-dp[i][j]); checkstart = max(j-1,1);tempsum = 0; break;}
+    }
+  }
+
+  rep(i,ans.size()) cout << ans[i] ;
+
   return 0;
 }

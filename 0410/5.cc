@@ -324,6 +324,45 @@ struct Sieve {
 
 
 int main() {
-  
+  ll N;
+  ll K;
+  cin >> N >> K;
+  vector<ll> v(N);
+  rep(i,N) {int vi; cin >> vi; v[i] = vi;}
+
+  ll ans = 0;
+  rep(i,K+1){
+    //iはなおす回数
+    rep(j,K-i+1){
+      //jは左からpopする回数
+      vector<ll> tempv;
+      ll tempsum = 0;
+      deque <ll> q;
+      rep(i,N){q.push_back(v[i]);}
+      rep(l,j) {
+        if(q.empty()) break;
+        ll t = q.front();
+        tempsum += t;
+        tempv.push_back(t);
+        q.pop_front();
+      }
+      rep(r,K-i-j){
+        if(q.empty()) break;
+        ll t = q.back();
+        tempsum += t;
+        tempv.push_back(t);
+        q.pop_back();
+      }
+
+      //cout << "tempsu = " << tempsum << endl;
+      sort(all(tempv));
+
+      int insnum = min(i,(int)tempv.size());
+      rep(s,insnum) {if(tempv[s] > 0) break;tempsum -= tempv[s];}
+      //cout << i << " " << j << " " << ans << endl;
+      ans = max(tempsum,ans);
+    }
+  }
+  cout << ans << endl;
   return 0;
 }

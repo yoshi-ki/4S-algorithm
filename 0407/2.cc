@@ -324,6 +324,66 @@ struct Sieve {
 
 
 int main() {
-  
+  int n,k;
+  cin >> n >> k;
+  string s;
+  cin >> s;
+  int temp = s[0];
+  int tempcount = 0;
+  vector<int> info;
+  rep(i,s.size()){
+    if(s[i] == temp) tempcount++;
+    else {info.push_back(tempcount); temp = s[i]; tempcount = 1;}
+  }
+  info.push_back(tempcount);
+
+  //rep(i,info.size()) cout << info[i] << endl;
+
+  // string sbar;
+  // rep(i,s.size()){
+  //   if(s[i] == '0') sbar.push_back('1');
+  //   else sbar.push_back('0');
+  // }
+
+  //rep(i,sbar.size()) cout << sbar[i] << " ";
+
+  auto count = [&](int num){
+    int res = 0;
+    if(num > info.size()) {rep(i,info.size()) res += info[i]; return res;}
+    rep(i,num) res += info[i];
+    int tempnum = num;
+    int start = 0;
+    int tempres = res;
+    while(tempnum + 2 <= info.size()){
+      tempres = tempres - info[start] - info[start+1] + info[tempnum] + info[tempnum+1];
+      res = max(res, tempres);
+      tempnum += 2;
+      start += 2;
+      //cout << tempres << endl;
+    }
+    return res;
+  };
+
+  int ans = 0;
+  if(s[0] == '1'){
+    ans = max(ans,count(2*k+1));
+    //rep(i,info.size()) cout << info[i] ;
+    //cout << "" << endl;
+    copy(info.begin()+1,info.end(),info.begin());
+    info.resize(info.size()-1);
+    //rep(i,info.size()) cout << info[i] ;
+    //cout << "" << endl;
+    ans = max(ans,count(2*k));
+  }
+  else{
+    ans = max(ans,count(2*k));
+    copy(info.begin()+1,info.end(),info.begin());
+    info.resize(info.size()-1);
+    ans = max(ans,count(2*k+1));
+  }
+
+  cout << ans << endl;
+
+
   return 0;
 }

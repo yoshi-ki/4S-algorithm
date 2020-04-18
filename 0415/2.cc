@@ -323,7 +323,24 @@ struct Sieve {
 
 
 
+int count(int n){
+  if(n == 0) return 0;
+  int digit = (int)log10(n) + 1;
+  if(digit == 1) return min(max(n,0),1);
+  int maxdigit = n / (int)pow(10,digit-1);
+  if(maxdigit == 1){
+    return count(pow(10,digit-1)-1) + count(n - maxdigit * pow(10,digit-1)) + (n - pow(10,digit-1) + 1);
+  }
+  else{
+    return count(pow(10,digit-1)-1) + pow(10,digit-1) + (maxdigit - 1) * count(pow(10,digit-1)-1) + 
+    count(n - maxdigit * pow(10,digit-1));
+  }
+}
+
 int main() {
-  
+  int n;
+  cin >> n;
+  cout << count(n) << endl;
+
   return 0;
 }

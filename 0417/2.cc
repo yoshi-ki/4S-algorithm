@@ -324,6 +324,33 @@ struct Sieve {
 
 
 int main() {
-  
+  ll h ,w;
+  cin >> h >> w;
+  ll S = h * w;
+  if(h%3 == 0 | w % 3 == 0) {cout << 0 << endl; return 0;}
+  ll s = S / 3;
+  ll e1 = 0;
+  while(e1 * h < s) e1++;
+  ll e2 = 0;
+  while(e2 * w < s) e2++;
+  auto check = [&] (ll a, ll b){
+    vector<ll> v;
+    v.push_back(a);v.push_back(b);v.push_back(S-a-b);
+    sort(all(v));
+    return (v[2] - v[0]);
+  };
+  ll ans = LLINF;
+  ans = min(ans,check(e1*h, (w-(e1)) * (h / 2)));
+  ll e3 = e1 - 1;
+  ans = min(ans,check(e3*h, (w-(e3)) * (h / 2)));
+  //ll e5 = e1 + 1;
+  //ans = min(ans,check(e5*h, (w-(e5)) * (h / 2)));
+  ans = min(ans,check(e2*w, (h-(e2)) * (w / 2)));
+  ll e4 = e2 - 1;
+  ans = min(ans,check(e4*w, (h-(e4)) * (w / 2)));
+  //ll e6 = e2 + 1;
+  //ans = min(ans,check(e6*w, (h-(e6)) * (w / 2)));
+  ans = min(ans , min(h,w));
+  cout << ans << endl;
   return 0;
 }

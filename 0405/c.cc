@@ -324,6 +324,12 @@ struct Sieve {
 
 
 int main() {
-  
+  ll n,k;
+  cin >> n >> k;
+  if(n < k) cout << min(k-n,n) << endl;
+  else{
+    ll x = n % k;
+    cout << min(x,k-x) << endl;
+  }
   return 0;
 }

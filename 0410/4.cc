@@ -324,6 +324,26 @@ struct Sieve {
 
 
 int main() {
-  
+  ll n;
+  cin >> n;
+  vector<ll> a(n);
+  rep(i,n) cin >> a[i];
+  ll sum = 0;
+  rep(i,n) a[i] = a[i] - (i+1);
+  rep(i,n) sum += a[i];
+  sort(all(a));
+  ll av = sum / n;
+  av = a[n/2];
+  ll ans = LLINF;
+  ll temp = 0;
+  rep(i,n) temp += abs(a[i] - av);
+  ans = min(ans,temp);
+  temp = 0;
+  rep(i,n) temp += abs(a[i] - av +1);
+  ans = min(ans,temp);
+  temp = 0;
+  rep(i,n) {temp += abs(a[i] - av -1);}
+  ans = min(ans, temp);
+  cout << ans << endl;
   return 0;
 }

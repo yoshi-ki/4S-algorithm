@@ -251,7 +251,7 @@ struct SegTree {
 */
 
 
-/*
+
 // --- 素数系のライブラリ ---
 
 //素因数分解をpairで出す関数
@@ -313,7 +313,7 @@ struct Sieve {
   }
 };
 // --- 素数系のライブラリend ---
-*/
+
 
 
 //when you want to cout double ...
@@ -324,6 +324,63 @@ struct Sieve {
 
 
 int main() {
+  ll n;
+  cin >> n;
+  vector <pair<ll,int>> v;
+  for (ll i = 1; i <= n; i++){
+    //iの素因数分解を行う
+    vector <pair<ll,int>> tempv = factorize(i);
+    // rep(i,tempv.size()){
+    //   cout << tempv[i].first << " " << tempv[i].second<< endl;
+    // }
+    rep(j,tempv.size()){
+      v.push_back(tempv[j]);
+    }
+  }
   
+  sort(all(v));
+  // rep(i,v.size()){
+  //   cout << v[i].first << " " << v[i].second<< endl;
+  // }
+
+  //同じ要素をひとまとめにする
+  ll tempfactor = 1;
+  int tempcount = 0;
+  vector <pair<ll,int>> factors;
+  rep(i,v.size()){
+    if(tempfactor == v[i].first){
+      tempcount += v[i].second;
+    }
+    else {
+      factors.push_back(pair<ll,int>(tempfactor,tempcount));
+      tempcount = v[i].second;
+      tempfactor = v[i].first;
+    }
+  }
+  factors.push_back(pair<ll,int>(tempfactor,tempcount));
+
+  // rep(i,factors.size()){
+  //   cout << factors[i].first << " " << factors[i].second << endl;
+  // }
+
+  //ここまでで素因数分解は完了
+  int help [5] = {0,0,0,0,0};
+  int help2[5] = {2,4,14,24,74};
+  rep(i,factors.size()){
+    rep(j,5){
+      if(factors[i].second >= help2[j]) help[j]++;
+    }
+  }
+
+  // rep(i,5) cout << help[i] << " ";
+
+  int ans = 0;
+  ans += ((help[1] * (help[1]-1))/2) * (help[0]-2);
+  ans += help[2] * (help[1]-1);
+  ans += help[3] * (help[0]-1);
+  ans += help[4] ;
+  cout << ans << endl;
+
+
   return 0;
 }

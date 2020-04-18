@@ -321,9 +321,42 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+int n,m;
+map<int,int> mp;
+vector<int> to[10];
+
+int ans = 0;
+
+void dfs(int now){
+  //全部訪れてたら終わり。訪れていなかったら探索
+  int flag = 1;
+  rep(i,n) if(mp[i] == 0) flag = 0;
+  if(flag) {ans++; return;}
+  rep(i,to[now].size()){
+    int dest = to[now][i];
+    if(mp[dest] == 1) continue;
+    //まだ訪れていなかったら
+    mp[dest] = 1;
+    dfs(dest);
+    mp[dest] = 0;
+  }
+
+  return ;
+}
 
 
-int main() {
-  
+int main() {;
+  cin >> n >> m;
+  rep(i,m){
+    int a,b;
+    cin >> a >>b;
+    to[a-1].push_back(b-1);
+    to[b-1].push_back(a-1);
+  }
+
+  mp[0] = 1;
+  dfs(0);
+  cout << ans << endl;
+
   return 0;
 }

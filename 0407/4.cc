@@ -321,9 +321,29 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+ll temp [10] = {1,2,3,3,4,4,5,5,6,7};
+ll beforedigits [10];
 
+ll count(string s){
+  ll front = s[0] - '0';
+  ll n = s.size();
+  if(n==1) return temp[front];
+  ll res = 0;
+  res = beforedigits[n-1] * (temp[front]-1) + count(&s[1]);
+  return res;
+}
 
 int main() {
-  
+  string s;
+  cin >> s;
+  ll beforedigit = 1;
+  beforedigits[0] = 1;
+  rep(i,s.size()){
+    beforedigit *= 7;
+    beforedigits[i+1] = beforedigit;
+  }
+
+
+  cout << count(s) << endl;
   return 0;
 }

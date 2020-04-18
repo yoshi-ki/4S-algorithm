@@ -324,6 +324,57 @@ struct Sieve {
 
 
 int main() {
-  
+  ll n;
+  cin >> n;
+  vector<ll> a(n);
+  rep(i,n) cin >> a[i];
+  ll ans = -LLINF;
+  if(n%2 == 0){
+    ll sum1 = 0;
+    for(int j = 0; j <= n-1; j= j +2){
+      sum1 += a[j];
+    }
+    ll sum2 = 0;
+    for(int j = 1; j <= n-1; j= j+2){
+      sum2 += a[j];
+    }
+    ans = max(sum1,sum2);
+  }
+  else{
+    //まず奇数番目を選ぶ累積和を計算
+    vector<ll> odds;
+    vector<ll> evens;
+    odds.push_back(a[0]);
+    evens.push_back(a[1]);
+    for(int i = 2; i <= n-1; i=i+2){
+      odds.push_back(odds[odds.size()-1] + a[i]);
+    }
+    for(int i = 3; i <= n-1; i= i+2){
+      evens.push_back(evens[evens.size()-1] + a[i]);
+    }
+
+
+    //累積和を計算したら次は、選ばない場所でループを回す
+    for(int i= 0; i <= n-1; i= i+2){
+      //i番目を選ばない(0-indexed)
+      ll tempsum = 0;
+      ll leftmax = -LLINF;
+      ll rightmax = -LLINF;
+      int count = i/2;
+      if(i == 0) {leftmax = 0;}
+      else{
+        leftmax = max(odds[count-1],evens[count-1]);
+      }
+      if(i == n-1){rightmax = 0;}
+      else{
+        if(count == 0){rightmax = max(odds[odds.size()-1] - odds[count],evens[evens.size()-1]);}
+        else rightmax = max(odds[odds.size()-1] - odds[count],evens[evens.size()-1] - evens[count-1]);
+      }
+      tempsum += (leftmax + rightmax);
+      ans = max(tempsum,ans);
+    }
+  }
+
+  cout << ans << endl;
   return 0;
 }

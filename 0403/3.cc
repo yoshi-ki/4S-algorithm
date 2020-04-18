@@ -321,9 +321,43 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
-
+int dp[1005][5000];
 
 int main() {
-  
+  int n, M;
+  cin >> n >> M;
+  vector<int> a(M);
+  vector<int> d(M);
+  rep(i,M){
+    cin >> a[i];
+    int b;
+    cin >> b;
+    int tempd = 0;
+    rep(j,b){
+      int c; cin >> c;
+      tempd = tempd | 1 << (c-1);
+    }
+    d[i] = tempd;
+  }
+
+  rep(i,1005)rep(j,5000) dp[i][j] = INF;
+  dp[0][0] = 0;
+
+  rep(i,M){
+    rep(j,1 << n){
+      //cout << d[i] << " " << j << " " << (j | d[i]) << endl;
+      dp[i+1][j] = min(dp[i+1][j],dp[i][j]);
+      //cout << i+1 << " " << (j|d[i]) << endl;
+      //if(i==2 && j == 13) {cout << d[i] << " " << (j|d[i]) << endl; cout << dp[i][j] + a[i] << endl;}
+      dp[i+1][j | d[i]] = min(dp[i+1][j | d[i]],min( dp[i][j | d[i]],dp[i][j] + a[i]));
+    }
+    //cout << dp[i][(1<<n)-1] << endl;
+  }
+
+
+  if(dp[M][(1<<n)-1] == INF) cout << -1 << endl;
+  else cout << dp[M][(1<<n)-1] << endl;
+
+
   return 0;
 }

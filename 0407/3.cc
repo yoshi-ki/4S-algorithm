@@ -321,9 +321,34 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+vector<ll> v;//ここにはバンも含めた数を入れる
+
+ll count(ll x, ll level){
+  //level バーガーのx番目までのpatyの数
+  ll res;
+  if(level == 0) res = 1;
+  else if(x <= 1) res = 0;
+  else if(x >= v[level]-1) res = 2 * count(LLINF,level-1) + 1;
+  else if(x <= (v[level]-3)/2 + 1){res = count(x-1,level-1);}
+  else if(x == (v[level]-3)/2 + 2){res = count(LLINF,level-1) + 1;}
+  else {res = count(x - (v[level]-3)/2 - 2,level-1) + count(LLINF,level-1) + 1;}
+  //cout << x << " " << res << endl;
+
+  return res;
+}
 
 
 int main() {
-  
+  ll n, x;
+  cin >> n >> x;
+  v.resize(n+1);
+  v[0] = 1;
+  for(int i = 1; i <= n; i++){
+    v[i] = v[i-1] * 2 + 3;
+  }
+
+  ll ans = count(x,n);
+  cout << ans << endl;
+
   return 0;
 }

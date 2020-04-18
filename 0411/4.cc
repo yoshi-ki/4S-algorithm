@@ -321,9 +321,67 @@ struct Sieve {
 
 /* --- ここからコード --- */
 
+bool compare_by_b(pair<int, int> a, pair<int, int> b) {
+    if(a.second != b.second){
+        return a.second < b.second;
+    }else{
+        return a.first < b.first;
+    }
+}
 
 
 int main() {
-  
+  int n;
+  cin >> n;
+  vector<pair<int,int>> red(n);
+  rep(i,n) {
+    int ai,bi;
+    cin >> ai >> bi;
+    red[i].first = ai;
+    red[i].second = bi;
+  }
+  vector<pair<int,int>> blue(n);
+  rep(i,n){
+    int ci,di;
+    cin >> ci >> di;
+    blue[i].first = ci;
+    blue[i].second = di;
+  }
+
+  sort(all(red));
+
+  // rep(i,red.size()){
+  //   cout << red[i].first << " " << red[i].second << endl;
+  // }
+
+  vector <bool> choiced (2*n);
+  rep(i,2*n) choiced[i] = false;
+  //choicedにはすでに選ばれたかどうかが入っている
+  //x座標で区別する
+
+  int ans = 0;
+
+  for(int i = n-1; i >=0; i--){
+    //i番目の頂点について選ぶことのできる点のvector を作成する
+    vector <pair<int,int>> able;
+    rep(j,n){
+      if(blue[j].first > red[i].first && blue[j].second > red[i].second){
+        able.push_back(blue[j]);
+      }
+    }
+    //sortして、y座標の一番小さいやつを選ぶ
+    sort(all(able),compare_by_b);
+    rep(j,able.size()){
+      if(!choiced[able[j].first]){
+        //もし選ばれていなかったら
+        choiced[able[j].first] = true;
+        ans++;
+        break;
+      }
+    }
+  }
+
+  cout << ans << endl;
+
   return 0;
 }

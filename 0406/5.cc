@@ -324,6 +324,26 @@ struct Sieve {
 
 
 int main() {
-  
+  ll n; ll k;
+  cin >> n >> k;
+  vector<ll> a(n);
+  rep(i,n){
+    cin >> a[i];
+  }
+  ll sum = 0;
+  ll t = 0;
+  ll ans = 0;
+  rep(s,n){
+    while(t<n && sum + a[t] < k){
+      sum += a[t];
+      t++;
+    }
+    ans += t-s;
+    if(s==t) t++;
+    else sum = sum - a[s];
+  }
+
+  ans = (n+1) * n / 2 - ans;
+  cout << ans << endl;
   return 0;
 }
